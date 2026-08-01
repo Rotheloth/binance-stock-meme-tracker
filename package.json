@@ -1,0 +1,13 @@
+{
+  "name": "binance-stock-meme-tracker",
+  "version": "1.0.0",
+  "description": "Real-time tracker for Binance Web3 Stock Meme Coins additions and removals",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
