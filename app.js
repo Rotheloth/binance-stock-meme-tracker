@@ -6,7 +6,7 @@ let state = {
   filter: 'ALL',        // 'ALL', 'ADDED', 'REMOVED'
   chainFilter: 'ALL',   // 'ALL', 'BSC', 'ROBINHOOD'
   searchQuery: '',
-  sortBy: 'launchTime_desc',
+  sortBy: 'firstSeenTime_desc',
   soundEnabled: true
 };
 
@@ -369,6 +369,8 @@ function renderActiveTokensTable() {
 
   tokens.sort((a, b) => {
     switch (state.sortBy) {
+      case 'firstSeenTime_desc':
+        return (b.firstSeenTime || b.launchTime || 0) - (a.firstSeenTime || a.launchTime || 0);
       case 'launchTime_desc':
         return (b.launchTime || 0) - (a.launchTime || 0);
       case 'change24h_desc':
