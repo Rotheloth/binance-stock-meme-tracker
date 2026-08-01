@@ -369,8 +369,11 @@ function renderActiveTokensTable() {
 
   tokens.sort((a, b) => {
     switch (state.sortBy) {
-      case 'firstSeenTime_desc':
-        return (b.firstSeenTime || b.launchTime || 0) - (a.firstSeenTime || a.launchTime || 0);
+      case 'firstSeenTime_desc': {
+        const diffFirst = (b.firstSeenTime || 0) - (a.firstSeenTime || 0);
+        if (diffFirst !== 0) return diffFirst;
+        return (b.launchTime || 0) - (a.launchTime || 0);
+      }
       case 'launchTime_desc':
         return (b.launchTime || 0) - (a.launchTime || 0);
       case 'change24h_desc':
