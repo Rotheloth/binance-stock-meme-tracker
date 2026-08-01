@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Binance Web3 Stock Meme Tracker (BSC & Robinhood)</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Glassmorphism Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L4 6V18L12 22L20 18V6L12 2Z" fill="#F0B90B" fill-opacity="0.15" stroke="#F0B90B" stroke-width="2"/>
+            <path d="M12 6L7 9.5V14.5L12 18L17 14.5V9.5L12 6Z" fill="#F0B90B"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>BINANCE WEB3 <span class="accent-text">STOCK MEME</span> TRACKER</h1>
+          <span class="sub-brand">BSC & Robinhood Chain Real-Time Listing & Delisting Monitor</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="status-pill" id="connectionStatus">
+          <span class="live-dot"></span>
+          <span id="statusText">CANLI BAĞLI</span>
+        </div>
+
+        <button id="soundToggleBtn" class="action-btn sound-btn" title="Sesli Bildirim Ayarı">
+          <span id="soundIcon">🎹</span>
+          <span id="soundText">Piyano Sesi: Açık</span>
+        </button>
+
+        <a href="https://web3.binance.com/en/markets/stock-meme-coins?chain=bsc" target="_blank" rel="noopener" class="binance-link-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          Binance BSC
+        </a>
+
+        <a href="https://web3.binance.com/en/markets/stock-meme-coins?chain=robinhood" target="_blank" rel="noopener" class="binance-link-btn robinhood-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          Binance Robinhood
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+
+    <!-- KPI Summary Grid (Removed 2 cards as requested in Image 1) -->
+    <section class="kpi-grid-two">
+      <div class="kpi-card gold">
+        <div class="kpi-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F0B90B" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+        </div>
+        <div class="kpi-content">
+          <span class="kpi-title">Toplam Takip Edilen Aktif Stock Meme Coin</span>
+          <div class="kpi-value-row">
+            <h2 id="totalActiveCount" class="kpi-number">--</h2>
+            <div class="chain-badge-group">
+              <span class="kpi-tag bsc" id="bscCountTag">BSC: --</span>
+              <span class="kpi-tag robinhood" id="robinhoodCountTag">Robinhood: --</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-card cyan">
+        <div class="kpi-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00E5FF" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+        </div>
+        <div class="kpi-content">
+          <span class="kpi-title">Otomatik Tarama & Güncelleme Durumu</span>
+          <div class="kpi-value-row">
+            <h2 id="lastUpdatedTime" class="kpi-number">Canlı</h2>
+            <span class="kpi-tag">7 Saniye Periyot (BSC + Robinhood)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Layout (2 Columns) -->
+    <div class="grid-content">
+
+      <!-- Left Panel: Live Stream Feed -->
+      <section class="panel feed-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="live-pulse-icon"></span>
+            <h2>Değişim Akışı</h2>
+            <span class="pill-count" id="eventCountBadge">0 Olay</span>
+          </div>
+
+          <div class="filter-group">
+            <button class="filter-btn active" data-filter="ALL">Hepsi</button>
+            <button class="filter-btn green" data-filter="ADDED">🟢 Eklenenler</button>
+            <button class="filter-btn red" data-filter="REMOVED">🔴 Gidenler</button>
+          </div>
+        </div>
+
+        <div class="feed-scroll-container" id="eventFeedList">
+          <div class="feed-empty">
+            <div class="glow-spinner"></div>
+            <p>Canlı eklenen/çıkarılan coin verisi bekleniyor...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Panel: Currently Active Tokens Table -->
+      <section class="panel table-panel">
+        <div class="panel-header flex-wrap">
+          <div class="panel-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0B90B" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <h2>Aktif Stock Meme Coins</h2>
+            <span class="pill-count gold" id="activeTokensBadge">0 Coin</span>
+          </div>
+
+          <div class="controls-group">
+            <!-- Chain Filter Tabs -->
+            <div class="chain-tabs">
+              <button class="chain-tab-btn active" data-chain="ALL">Tüm Zincirler</button>
+              <button class="chain-tab-btn bsc" data-chain="BSC">BSC</button>
+              <button class="chain-tab-btn robinhood" data-chain="ROBINHOOD">Robinhood</button>
+            </div>
+
+            <div class="search-wrapper">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="searchInput" placeholder="Sembol, İsim veya CA ara...">
+            </div>
+
+            <div class="select-wrapper">
+              <select id="sortSelect">
+                <option value="launchTime_desc">Masa / Çıkış: En Yeni</option>
+                <option value="change24h_desc">24s Değişim: En Yüksek</option>
+                <option value="volume24h_desc">24s Hacim: En Yüksek</option>
+                <option value="marketCap_desc">Market Cap: En Yüksek</option>
+                <option value="liquidity_desc">Likidite: En Yüksek</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Tokens Table -->
+        <div class="table-scroll-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>COİN</th>
+                <th>ZİNCİR</th>
+                <th>SÖZLEŞME ADRESİ (CA)</th>
+                <th>FİYAT</th>
+                <th>5m / 1h / 24h DEĞİŞİM</th>
+                <th>MARKET CAP</th>
+                <th>LİKİDİTE</th>
+                <th>ETİKETLER</th>
+                <th>İŞLEMLER</th>
+              </tr>
+            </thead>
+            <tbody id="tokensTableBody">
+              <tr>
+                <td colspan="9" class="table-loading">
+                  <div class="glow-spinner"></div>
+                  <p>Binance Web3 Verileri Yükleniyor...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div id="toastContainer" class="toast-wrapper"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

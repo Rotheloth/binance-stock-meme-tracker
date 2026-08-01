@@ -9,7 +9,23 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+
+const PUBLIC_DIR = fs.existsSync(path.join(__dirname, 'public', 'index.html'))
+  ? path.join(__dirname, 'public')
+  : __dirname;
+
+app.use(express.static(PUBLIC_DIR));
+
+app.get('/', (req, res) => {
+  const indexPath = fs.existsSync(path.join(__dirname, 'public', 'index.html'))
+    ? path.join(__dirname, 'public', 'index.html')
+    : path.join(__dirname, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.send('Binance Stock Meme Tracker Server is Running!');
+  }
+});
 
 const DATA_DIR = path.join(__dirname, 'data');
 if (!fs.existsSync(DATA_DIR)) {
