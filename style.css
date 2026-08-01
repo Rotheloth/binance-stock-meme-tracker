@@ -299,7 +299,7 @@ body {
 /* LAYOUT GRID */
 .grid-content {
   display: grid;
-  grid-template-columns: 380px 1fr;
+  grid-template-columns: 1fr 380px;
   gap: 16px;
   align-items: start;
 }

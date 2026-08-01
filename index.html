@@ -87,34 +87,10 @@
       </div>
     </section>
 
-    <!-- Main Content Layout (2 Columns) -->
+    <!-- Main Content Layout (2 Columns: Left = Table, Right = Stream Feed) -->
     <div class="grid-content">
 
-      <!-- Left Panel: Live Stream Feed -->
-      <section class="panel feed-panel">
-        <div class="panel-header">
-          <div class="panel-title">
-            <span class="live-pulse-icon"></span>
-            <h2>Değişim Akışı</h2>
-            <span class="pill-count" id="eventCountBadge">0 Olay</span>
-          </div>
-
-          <div class="filter-group">
-            <button class="filter-btn active" data-filter="ALL">Hepsi</button>
-            <button class="filter-btn green" data-filter="ADDED">🟢 Eklenenler</button>
-            <button class="filter-btn red" data-filter="REMOVED">🔴 Gidenler</button>
-          </div>
-        </div>
-
-        <div class="feed-scroll-container" id="eventFeedList">
-          <div class="feed-empty">
-            <div class="glow-spinner"></div>
-            <p>Canlı eklenen/çıkarılan coin verisi bekleniyor...</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Right Panel: Currently Active Tokens Table -->
+      <!-- Left Panel: Currently Active Tokens Table -->
       <section class="panel table-panel">
         <div class="panel-header flex-wrap">
           <div class="panel-title">
@@ -173,6 +149,30 @@
               </tr>
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <!-- Right Panel: Live Stream Feed -->
+      <section class="panel feed-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="live-pulse-icon"></span>
+            <h2>Değişim Akışı</h2>
+            <span class="pill-count" id="eventCountBadge">0 Olay</span>
+          </div>
+
+          <div class="filter-group">
+            <button class="filter-btn active" data-filter="ALL">Hepsi</button>
+            <button class="filter-btn green" data-filter="ADDED">🟢 Eklenenler</button>
+            <button class="filter-btn red" data-filter="REMOVED">🔴 Gidenler</button>
+          </div>
+        </div>
+
+        <div class="feed-scroll-container" id="eventFeedList">
+          <div class="feed-empty">
+            <div class="glow-spinner"></div>
+            <p>Canlı eklenen/çıkarılan coin verisi bekleniyor...</p>
+          </div>
         </div>
       </section>
 
