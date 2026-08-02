@@ -229,12 +229,23 @@ function formatTokenAge(launchTime) {
   return `${diffDays}d`;
 }
 
+// In-memory deduplication map for Telegram notifications (prevents duplicate messages within 60s)
+const sentTelegramEventsMap = new Map();
+
 // Send Telegram Notification with Native Inline Keyboard Buttons
 function sendTelegramNotification(evt) {
   if (!config.telegramEnabled || !config.telegramBotToken || !config.telegramChatId) return;
 
-  const chainName = evt.chainName || (evt.chainId === '4663' ? 'Robinhood' : 'BSC');
   const caLower = (evt.contractAddress || '').toLowerCase();
+  const eventKey = `${evt.type}_${evt.chainId || '56'}_${caLower}`;
+  const lastSent = sentTelegramEventsMap.get(eventKey);
+  if (lastSent && (Date.now() - lastSent < 60000)) {
+    console.log(`[TELEGRAM SKIP] Duplicate notification ${eventKey} skipped (sent ${Math.round((Date.now() - lastSent)/1000)}s ago)`);
+    return;
+  }
+  sentTelegramEventsMap.set(eventKey, Date.now());
+
+  const chainName = evt.chainName || (evt.chainId === '4663' ? 'Robinhood' : 'BSC');
   const gmgnUrl = `https://gmgn.ai/bsc/token/${caLower}`;
   const template = config.basedBotUrlTemplate || 'https://t.me/based_eth_bot?start={ca}';
   const basedBotUrl = template.replace('{ca}', caLower);
