@@ -38,8 +38,8 @@ const CONFIG_FILE = path.join(DATA_DIR, 'config.json');
 
 // Configuration Store
 let config = {
-  telegramBotToken: '',
-  telegramChatId: '',
+  telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || '8008965071:AAFGBtu2hsZOswE3bq6A3SDDl_mJFJivJ9M',
+  telegramChatId: process.env.TELEGRAM_CHAT_ID || '1581324942',
   telegramEnabled: true,
   basedBotUrlTemplate: 'https://t.me/based_eth_bot?start={ca}'
 };
@@ -48,12 +48,16 @@ function loadConfig() {
   try {
     if (fs.existsSync(CONFIG_FILE)) {
       const data = fs.readFileSync(CONFIG_FILE, 'utf8');
-      config = { ...config, ...JSON.parse(data) };
-      console.log(`[CONFIG] Loaded config (Telegram Enabled: ${config.telegramEnabled && Boolean(config.telegramBotToken)})`);
+      const loaded = JSON.parse(data);
+      config = { ...config, ...loaded };
     }
   } catch (err) {
     console.error('[CONFIG] Error loading config.json:', err.message);
   }
+  // Ensure valid credentials even if config.json on disk is missing or empty
+  if (!config.telegramBotToken) config.telegramBotToken = process.env.TELEGRAM_BOT_TOKEN || '8008965071:AAFGBtu2hsZOswE3bq6A3SDDl_mJFJivJ9M';
+  if (!config.telegramChatId) config.telegramChatId = process.env.TELEGRAM_CHAT_ID || '1581324942';
+  console.log(`[CONFIG] Loaded config (Telegram Enabled: ${config.telegramEnabled && Boolean(config.telegramBotToken)})`);
 }
 
 function saveConfig() {
