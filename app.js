@@ -596,8 +596,31 @@ async function fetchActiveTokens() {
   }
 }
 
+async function fetchInitialData() {
+  fetchActiveTokens();
+  try {
+    const [eventsRes, statsRes] = await Promise.all([
+      fetch('/api/events?limit=50'),
+      fetch('/api/stats')
+    ]);
+    const eventsData = await eventsRes.json();
+    const statsData = await statsRes.json();
+    if (eventsData.success) {
+      state.events = eventsData.data;
+      renderEventsFeed();
+    }
+    if (statsData.success) {
+      state.stats = statsData.data;
+      renderStats();
+    }
+  } catch (e) {
+    console.error('Error fetching initial data:', e);
+  }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   setupListeners();
+  fetchInitialData();
   initSSE();
 
   setInterval(() => {
