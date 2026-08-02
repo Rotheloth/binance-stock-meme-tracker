@@ -719,6 +719,16 @@ pollBinance().then(() => {
 
 setInterval(pollBinance, pollIntervalMs);
 
+// 24/7 Keep-Alive Self-Ping Engine (Prevents Render Free Tier Sleeping)
+setInterval(() => {
+  const pingUrl = process.env.RENDER_EXTERNAL_URL || 'https://binance-stock-meme-tracker.onrender.com';
+  https.get(`${pingUrl}/api/stats`, (res) => {
+    // Keep-alive ping successful
+  }).on('error', (err) => {
+    // Ignore ping errors
+  });
+}, 4 * 60 * 1000); // Ping every 4 minutes
+
 app.listen(PORT, () => {
   console.log(`\n======================================================`);
   console.log(`🚀 Binance Web3 Stock Meme Tracker (Guaranteed ADDED Event Engine)!`);
