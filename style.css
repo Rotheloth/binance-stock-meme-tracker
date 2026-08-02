@@ -299,8 +299,8 @@ body {
 /* LAYOUT GRID */
 .grid-content {
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 16px;
+  grid-template-columns: 1fr 340px;
+  gap: 14px;
   align-items: start;
 }
 
@@ -420,8 +420,9 @@ body {
 .feed-scroll-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-height: 720px;
+  gap: 8px;
+  max-height: calc(100vh - 220px);
+  min-height: 520px;
   overflow-y: auto;
   padding-right: 2px;
 }
@@ -761,22 +762,23 @@ body {
 
 .table-scroll-container {
   overflow-x: auto;
-  max-height: 720px;
+  max-height: calc(100vh - 220px);
+  min-height: 520px;
 }
 
 .custom-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
 }
 
 .custom-table th {
   background: var(--bg-card-inner);
   color: var(--text-secondary);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
@@ -784,7 +786,7 @@ body {
 }
 
 .custom-table td {
-  padding: 10px 12px;
+  padding: 7px 10px;
   border-bottom: 1px solid var(--border-color);
   vertical-align: middle;
 }

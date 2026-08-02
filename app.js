@@ -394,7 +394,7 @@ function renderActiveTokensTable() {
   if (tokens.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="9" class="feed-empty">
+        <td colspan="8" class="feed-empty">
           Aranan kriterlere uygun aktif stock meme coin bulunamadı.
         </td>
       </tr>
@@ -461,12 +461,6 @@ function renderActiveTokensTable() {
         <td><span style="font-family: var(--font-mono); font-weight: 700; color: #00E5FF;">${formatCurrency(t.marketCap)}</span></td>
         <td><span style="font-family: var(--font-mono);">${formatCurrency(t.liquidity)}</span></td>
         <td><span style="font-family: var(--font-mono); font-weight: 600;">${t.holders ? t.holders.toLocaleString() : '-'}</span></td>
-        <td>
-          <div class="tbl-actions">
-            <a href="${basedBotUrl}" target="_blank" class="btn-action-pill btn-basedbot-sm">🤖 Basedbot ↗</a>
-            <a href="${gmgnUrl}" target="_blank" class="btn-action-pill btn-gmgn-sm">🦖 GMGN ↗</a>
-          </div>
-        </td>
       </tr>
     `;
   }).join('');
